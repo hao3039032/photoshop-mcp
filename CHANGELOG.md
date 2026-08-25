@@ -5,6 +5,19 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2026-08-11
+
+[v1.6.0...v1.6.1](https://github.com/alisaitteke/photoshop-mcp/compare/v1.6.0...v1.6.1)
+
+### Other
+
+- Add csv-to-cards recipe infographic and README showcase section (`a928b50`)
+- Add 13 tools and csv-to-cards recipe, expanding coverage to 102 tools. (`f79392b`)
+
+### Version bumps
+
+- 1.6.1 (`863c1ae`)
+
 ## [1.6.0] - 2026-08-07
 
 [v1.5.0...v1.6.0](https://github.com/alisaitteke/photoshop-mcp/compare/v1.5.0...v1.6.0)
@@ -299,12 +312,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1.1.0 (`6e1c1f0`)
 - 1.0.0 (`17d8d91`)
 
-## [1.6.1] - 2026-08-11
+## [1.7.0] - 2026-08-25
 
-[v1.6.0...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.6.0...HEAD) *(pending tag v1.6.1)*
+[v1.6.1...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.6.1...HEAD) *(pending tag v1.7.0)*
+
+### Features
+
+- feat(site): add llms.txt, AI discoverability, and full SEO meta layer (`cfccd5a`)
+- feat(workflows): add GitHub Actions workflow for deploying marketing site to GitHub Pages feat(workflows): enhance release workflow to include npm publishing and MCP Registry publishing chore(gitignore): update .gitignore to exclude generated site content and build artifacts docs(CONTRIBUTING): update contributing guidelines to reflect new release and publishing processes (`1e56306`)
+
+### Fixes
+
+- fix(uxp): register bridge panel with manifestVersion 4 and correct entrypoint (`df70d46`)
+- fix(site): use Photoshop MCP icon instead of recipe illustration as logo (`7a0710a`)
+- fix(ci): commit site lockfile so Pages deploy can run npm ci (`bf5982f`)
 
 ### Other
 
-- Add csv-to-cards recipe infographic and README showcase section (`a928b50`)
-- Add 13 tools and csv-to-cards recipe, expanding coverage to 102 tools. (`f79392b`)
+- Add agent discoverability docs and fix MCP registry description sync. (`a1f976b`)
 
