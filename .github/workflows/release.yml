@@ -76,9 +76,26 @@ jobs:
           fi
 
       - name: Publish to npm
+        id: npm_publish
+        continue-on-error: true
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify npm publish (allow already-published version)
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [[ "${{ steps.npm_publish.outcome }}" == "success" ]]; then
+            echo "Published @alisaitteke/photoshop-mcp@${TAG_VERSION} to npm."
+            exit 0
+          fi
+          if npm view "@alisaitteke/photoshop-mcp@${TAG_VERSION}" version >/dev/null 2>&1; then
+            echo "npm version ${TAG_VERSION} already published; continuing to MCP Registry."
+            exit 0
+          fi
+          echo "npm publish failed and version ${TAG_VERSION} is not on npm." >&2
+          echo "Set the NPM_TOKEN repository secret (npm Automation/Publish token)." >&2
+          exit 1
 
       - name: Install MCP Publisher
         run: |
