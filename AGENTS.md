@@ -85,7 +85,7 @@ Examples: [examples/cursor-config.json](examples/cursor-config.json), [examples/
 | Photoshop not found | Start Photoshop; set `PHOTOSHOP_PATH` if non-standard install |
 | Tool times out | Large operations may need retries; check `get_state` for partial progress |
 | `generative_unavailable` / `version_unsupported` | Call `get_capabilities`; feature may need newer Photoshop or Adobe login |
-| Neural filter fails | Load `uxp-plugin/` via Adobe UXP Developer Tools — see [docs/development.md](docs/development.md#uxp-bridge-plugin-neural-filters) |
+| Neural filter fails | **Add Plugin** → `uxp-plugin/manifest.json` → **Load** in UXP Developer Tools — see [docs/development.md](docs/development.md#uxp-bridge-plugin-neural-filters) |
 | No active document | Ask user to open/create a document, then `get_state` |
 
 More: [docs/troubleshooting.md](docs/troubleshooting.md).

@@ -48,7 +48,7 @@ npm run verify:photoshop-prompts
 Neural Filters (`photoshop_neural_filter`) require the companion plugin in `uxp-plugin/`:
 
 1. Install [Adobe UXP Developer Tools](https://developer.adobe.com/photoshop/uxp/2022/guides/devtool/).
-2. **Load Plugin** → select the `uxp-plugin/` folder in this repo.
+2. **Add Plugin** → select `uxp-plugin/manifest.json` in this repo → **Load** (or **Load & Watch**) from the plugin's ••• menu. After `manifest.json` changes, **Unload** then **Load** again (not Reload).
 3. Open the **MCP Bridge** panel in Photoshop (keeps polling the MCP server on `127.0.0.1:38452`).
 4. Start `photoshop-mcp` or the web UI — the server starts the bridge HTTP listener automatically.
 

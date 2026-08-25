@@ -1,6 +1,6 @@
 /**
  * Photoshop MCP UXP Bridge — polls MCP HTTP server and runs batchPlay commands.
- * Load via Adobe UXP Developer Tools (Load Plugin → uxp-plugin folder).
+ * Load via Adobe UXP Developer Tools (Add Plugin → uxp-plugin/manifest.json → Load or Load & Watch from ••• menu).
  */
 const { entrypoints } = require('uxp');
 const photoshop = require('photoshop');
