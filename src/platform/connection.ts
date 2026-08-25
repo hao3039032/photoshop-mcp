@@ -15,15 +15,22 @@ export interface PhotoshopInfo {
 export class PhotoshopConnection {
   private logger: Logger;
   private detector: PhotoshopDetector;
-  private executor: ScriptExecutor;
+  private executor: ScriptExecutor | null = null;
   private photoshopInfo: PhotoshopInfo | null = null;
   private macosExecutor?: MacOSExecutor;
 
   constructor() {
     this.logger = new Logger('PhotoshopConnection');
     this.detector = new PhotoshopDetector();
+    // Executor is initialized lazily on first use so that constructing a
+    // PhotoshopConnection on an unsupported platform (e.g. the Linux CI runner
+    // used for the verify-photoshop-prompts script) does not throw immediately.
+  }
 
-    // Initialize platform-specific executor
+  /** Returns the platform executor, initializing it on first call. */
+  private getExecutor(): ScriptExecutor {
+    if (this.executor) return this.executor;
+
     const platformType = platform();
     if (platformType === 'win32') {
       this.executor = new WindowsExecutor();
@@ -33,6 +40,7 @@ export class PhotoshopConnection {
     } else {
       throw new Error(`Unsupported platform: ${platformType}`);
     }
+    return this.executor;
   }
 
   async ping(): Promise<boolean> {
@@ -77,15 +85,17 @@ export class PhotoshopConnection {
         this.macosExecutor.setAppName(this.photoshopInfo.appName);
       }
 
+      const executor = this.getExecutor();
+
       // Check if Photoshop is running, launch if needed
-      const isRunning = await this.executor.isPhotoshopRunning();
+      const isRunning = await executor.isPhotoshopRunning();
       if (!isRunning) {
         this.logger.info('Photoshop not running, launching...');
-        await this.executor.launchPhotoshop(this.photoshopInfo.path);
+        await executor.launchPhotoshop(this.photoshopInfo.path);
       }
 
       // Execute the script
-      const result = await this.executor.execute(script, timeout);
+      const result = await executor.execute(script, timeout);
       return result;
     } catch (error) {
       this.logger.error('Script execution failed:', error);
@@ -102,10 +112,11 @@ export class PhotoshopConnection {
       this.photoshopInfo = await this.detector.detect();
     }
 
-    const isRunning = await this.executor.isPhotoshopRunning();
+    const executor = this.getExecutor();
+    const isRunning = await executor.isPhotoshopRunning();
     if (!isRunning) {
       this.logger.info('Launching Photoshop...');
-      await this.executor.launchPhotoshop(this.photoshopInfo.path);
+      await executor.launchPhotoshop(this.photoshopInfo.path);
     }
   }
 }
