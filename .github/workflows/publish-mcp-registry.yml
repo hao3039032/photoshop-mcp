@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
       - name: Sync server.json with package.json
         run: npm run sync:server-version
 
