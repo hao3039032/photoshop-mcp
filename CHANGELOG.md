@@ -5,6 +5,14 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Features
+
+- feat(analytics): revert to PostHog-only (posthog-js + posthog-node); remove GA4 and Mixpanel
+- docs: remove GA4/gtag references; docs site has no analytics tracking
+- PostHog works on every `npx` install via embedded project key (override with `POSTHOG_KEY`)
+
 ## [1.7.1] - 2026-08-25
 
 [v1.7.0...v1.7.1](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.0...v1.7.1)

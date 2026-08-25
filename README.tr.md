@@ -683,13 +683,9 @@ const q = query({
 - `ANALYTICS_DISABLED`: Anonim kullanım analizlerini tamamen devre dışı bırakmak için `1` veya `true`
   olarak ayarlayın
 - `POSTHOG_DISABLED`: `ANALYTICS_DISABLED` için eski takma ad
-- `ANALYTICS_PROVIDER`: Analiz arka ucu — `mixpanel` (varsayılan) veya `posthog` (geri alma)
-- `MIXPANEL_TOKEN`: (İsteğe bağlı) Mixpanel proje tokenını geçersiz kılın
-- `MIXPANEL_API_HOST`: (İsteğe bağlı) Mixpanel ingest host'u (varsayılan: `https://api-eu.mixpanel.com`)
-- `POSTHOG_KEY`: (İsteğe bağlı, eski) PostHog proje anahtarı — yalnızca `ANALYTICS_PROVIDER=posthog`
-  olduğunda kullanılır
-- `POSTHOG_API_HOST`: (İsteğe bağlı, eski) PostHog ingest host'u (varsayılan: `https://a.alisait.com`)
-- `POSTHOG_UI_HOST`: (İsteğe bağlı, eski) PostHog UI host'u (varsayılan: `https://eu.posthog.com`)
+- `POSTHOG_KEY`: (İsteğe bağlı) PostHog proje anahtarı — varsayılan gömülüdür; fork veya staging için geçersiz kılın
+- `POSTHOG_API_HOST`: (İsteğe bağlı) PostHog ingest host'u (varsayılan: `https://a.alisait.com`)
+- `POSTHOG_UI_HOST`: (İsteğe bağlı) PostHog UI host'u (varsayılan: `https://eu.posthog.com`)
 
 ## Mevcut Araçlar
 

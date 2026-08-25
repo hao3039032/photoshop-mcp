@@ -14,7 +14,7 @@ export type AnalyticsMilestone =
 
 /**
  * Fires a one-time funnel milestone per install. Uses a persisted flag plus a
- * deterministic $insert_id so Mixpanel deduplicates accidental double-sends.
+ * deterministic uuid so PostHog deduplicates accidental double-sends.
  */
 export function captureAnalyticsMilestoneOnce(
   milestone: AnalyticsMilestone,

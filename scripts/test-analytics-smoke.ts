@@ -1,7 +1,8 @@
 /**
  * Smoke test for MCP client analytics (mcp_client_connected / disconnected).
- * Verifies lifecycle events against the active provider (Mixpanel by default).
+ * Verifies lifecycle events against PostHog (embedded key by default).
  * Run: npx tsx scripts/test-analytics-smoke.ts
+ * Verify delivery separately in PostHog Live events (https://eu.posthog.com).
  */
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
@@ -75,7 +76,7 @@ async function testMcpClientLifecycle(): Promise<void> {
 async function main(): Promise<void> {
   await testUsageSurfaceMerge();
   await testMcpClientLifecycle();
-  console.log('\nAnalytics smoke checks passed (verify Mixpanel Live View separately).\n');
+  console.log('\nAnalytics smoke checks passed (verify PostHog Live events separately).\n');
 }
 
 main().catch((err) => {

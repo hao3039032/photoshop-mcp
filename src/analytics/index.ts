@@ -2,9 +2,6 @@ import { captureBetaChatTurn } from './beta-telemetry.js';
 import { getAppVersion } from './app-version.js';
 import {
   hasAnalyticsKey,
-  resolveAnalyticsProvider,
-  resolveMixpanelApiHost,
-  resolveMixpanelToken,
   resolvePostHogApiHost,
   resolvePostHogKey,
   resolvePostHogUiHost,
@@ -104,24 +101,11 @@ export async function shutdownAnalytics(): Promise<void> {
 }
 
 export function getAnalyticsRuntimeConfig(): AnalyticsRuntimeConfig {
-  const provider = resolveAnalyticsProvider();
   const enabled = isAnalyticsEnabled() && hasAnalyticsKey();
   const beta = getBetaTelemetryState();
-  if (provider === 'mixpanel') {
-    return {
-      enabled,
-      provider,
-      key: resolveMixpanelToken(),
-      apiHost: resolveMixpanelApiHost(),
-      uiHost: '',
-      distinctId: getOrCreateDistinctId(),
-      betaTelemetryOptIn: beta.betaTelemetryOptIn,
-      betaTelemetryPromptAnswered: beta.betaTelemetryPromptAnswered,
-    };
-  }
   return {
     enabled,
-    provider,
+    provider: 'posthog',
     key: resolvePostHogKey(),
     apiHost: resolvePostHogApiHost(),
     uiHost: resolvePostHogUiHost(),
@@ -130,7 +114,6 @@ export function getAnalyticsRuntimeConfig(): AnalyticsRuntimeConfig {
     betaTelemetryPromptAnswered: beta.betaTelemetryPromptAnswered,
   };
 }
-
 export {
   captureAnalyticsMilestoneOnce,
 } from './milestones.js';

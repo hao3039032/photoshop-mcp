@@ -640,12 +640,9 @@ Zur Claude Desktop-Konfiguration hinzufügen (`~/Library/Application Support/Cla
 - `LOG_LEVEL`: Protokollierungsstufe (0=DEBUG, 1=INFO, 2=WARN, 3=ERROR)
 - `ANALYTICS_DISABLED`: Auf `1` oder `true` setzen, um anonyme Nutzungsanalysen vollständig zu deaktivieren
 - `POSTHOG_DISABLED`: Veralteter Alias für `ANALYTICS_DISABLED`
-- `ANALYTICS_PROVIDER`: Analytics-Backend — `mixpanel` (Standard) oder `posthog` (rollback)
-- `MIXPANEL_TOKEN`: (Optional) Mixpanel-Projekt-Token überschreiben
-- `MIXPANEL_API_HOST`: (Optional) Mixpanel-Ingest-Host (Standard: `https://api-eu.mixpanel.com`)
-- `POSTHOG_KEY`: (Optional, veraltet) PostHog-Projekt-Schlüssel — nur verwendet, wenn `ANALYTICS_PROVIDER=posthog`
-- `POSTHOG_API_HOST`: (Optional, veraltet) PostHog-Ingest-Host (Standard: `https://a.alisait.com`)
-- `POSTHOG_UI_HOST`: (Optional, veraltet) PostHog-UI-Host (Standard: `https://eu.posthog.com`)
+- `POSTHOG_KEY`: (Optional) PostHog-Projekt-Schlüssel — Standard ist eingebettet; für Forks oder Staging überschreiben
+- `POSTHOG_API_HOST`: (Optional) PostHog-Ingest-Host (Standard: `https://a.alisait.com`)
+- `POSTHOG_UI_HOST`: (Optional) PostHog-UI-Host (Standard: `https://eu.posthog.com`)
 
 ## Verfügbare Werkzeuge
 

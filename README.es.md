@@ -595,12 +595,9 @@ Añada a su configuración de Claude Desktop (`~/Library/Application Support/Cla
 - `LOG_LEVEL`: Nivel de registro (0=DEBUG, 1=INFO, 2=WARN, 3=ERROR)
 - `ANALYTICS_DISABLED`: Establezca en `1` o `true` para deshabilitar completamente el análisis de uso anónimo
 - `POSTHOG_DISABLED`: Alias heredado de `ANALYTICS_DISABLED`
-- `ANALYTICS_PROVIDER`: Backend de análisis — `mixpanel` (predeterminado) o `posthog` (rollback)
-- `MIXPANEL_TOKEN`: (Opcional) Anule el token del proyecto Mixpanel
-- `MIXPANEL_API_HOST`: (Opcional) Host de ingesta de Mixpanel (predeterminado: `https://api-eu.mixpanel.com`)
-- `POSTHOG_KEY`: (Opcional, heredado) Clave del proyecto PostHog — se usa solo cuando `ANALYTICS_PROVIDER=posthog`
-- `POSTHOG_API_HOST`: (Opcional, heredado) Host de ingesta de PostHog (predeterminado: `https://a.alisait.com`)
-- `POSTHOG_UI_HOST`: (Opcional, heredado) Host de UI de PostHog (predeterminado: `https://eu.posthog.com`)
+- `POSTHOG_KEY`: (Opcional) Clave del proyecto PostHog — hay una predeterminada integrada; anule para forks o staging
+- `POSTHOG_API_HOST`: (Opcional) Host de ingesta de PostHog (predeterminado: `https://a.alisait.com`)
+- `POSTHOG_UI_HOST`: (Opcional) Host de UI de PostHog (predeterminado: `https://eu.posthog.com`)
 
 ## Herramientas disponibles
 

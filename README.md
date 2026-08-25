@@ -19,6 +19,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-lightgrey.svg)]()
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-io.github.alisaitteke%2Fphotoshop--mcp-purple.svg)](https://registry.modelcontextprotocol.io)
+[![MCP Toplist](https://mcptoplist.com/badge/io.github.alisaitteke%2Fphotoshop-mcp.svg)](https://mcptoplist.com/server/io.github.alisaitteke%2Fphotoshop-mcp)
 [![Website](https://img.shields.io/badge/website-photoshop--mcp-cyan.svg)](https://alisaitteke.github.io/photoshop-mcp/)
 
 A Model Context Protocol (MCP) server that enables AI assistants like Claude and Cursor to control Adobe Photoshop programmatically. This allows you to create designs, manipulate images, and automate Photoshop workflows through natural language commands while working in your IDE — or through the bundled **standalone web UI**, which supports both API keys and CLI subscription accounts (Claude Code / Gemini CLI). The UI also offers an opt-in **Action Plan (beta)** mode that plans every Photoshop step in one LLM call, then runs them in a single pass.
@@ -733,12 +734,9 @@ const q = query({
 - `LOG_LEVEL`: Logging level (0=DEBUG, 1=INFO, 2=WARN, 3=ERROR)
 - `ANALYTICS_DISABLED`: Set to `1` or `true` to disable anonymous usage analytics entirely
 - `POSTHOG_DISABLED`: Legacy alias for `ANALYTICS_DISABLED`
-- `ANALYTICS_PROVIDER`: Analytics backend — `mixpanel` (default) or `posthog` (rollback)
-- `MIXPANEL_TOKEN`: (Optional) Override the Mixpanel project token
-- `MIXPANEL_API_HOST`: (Optional) Mixpanel ingest host (default: `https://api-eu.mixpanel.com`)
-- `POSTHOG_KEY`: (Optional, legacy) PostHog project key — used only when `ANALYTICS_PROVIDER=posthog`
-- `POSTHOG_API_HOST`: (Optional, legacy) PostHog ingest host (default: `https://a.alisait.com`)
-- `POSTHOG_UI_HOST`: (Optional, legacy) PostHog UI host (default: `https://eu.posthog.com`)
+- `POSTHOG_KEY`: (Optional) PostHog project key — a default is embedded; override for forks or staging
+- `POSTHOG_API_HOST`: (Optional) PostHog ingest host (default: `https://a.alisait.com`)
+- `POSTHOG_UI_HOST`: (Optional) PostHog UI host (default: `https://eu.posthog.com`)
 
 ## Available Tools
 

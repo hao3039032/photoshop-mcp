@@ -11,7 +11,7 @@ export type AnalyticsPropertyValue =
 export interface AnalyticsEvent {
   name: string;
   properties?: Record<string, AnalyticsPropertyValue>;
-  /** Mixpanel $insert_id / PostHog uuid for deduplication. */
+  /** PostHog uuid for deduplication. */
   insertId?: string;
 }
 
@@ -22,7 +22,7 @@ export interface BetaTelemetryState {
 
 export interface AnalyticsRuntimeConfig {
   enabled: boolean;
-  provider: 'mixpanel' | 'posthog';
+  provider: 'posthog';
   key: string;
   apiHost: string;
   uiHost: string;

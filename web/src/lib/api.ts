@@ -176,7 +176,7 @@ export interface ChatDetail {
 
 export interface AnalyticsConfig {
   enabled: boolean;
-  provider: 'mixpanel' | 'posthog';
+  provider: 'posthog';
   distinctId: string;
   key: string;
   apiHost: string;
