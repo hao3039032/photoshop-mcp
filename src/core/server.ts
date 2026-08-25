@@ -1,5 +1,6 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js';
 import {
   ListToolsRequestSchema,
   CallToolRequestSchema,
@@ -244,7 +245,7 @@ export class PhotoshopMCPServer {
     }
   }
 
-  async start() {
+  async connect(transport: Transport, transportName = 'custom transport') {
     await this.session.initialize();
 
     this.server.oninitialized = () => {
@@ -254,10 +255,13 @@ export class PhotoshopMCPServer {
       onMcpClientDisconnected();
     };
 
-    const transport = new StdioServerTransport();
     await this.server.connect(transport);
 
-    this.logger.info('MCP Server connected via stdio');
+    this.logger.info(`MCP Server connected via ${transportName}`);
+  }
+
+  async start() {
+    await this.connect(new StdioServerTransport(), 'stdio');
   }
 
   async stop() {

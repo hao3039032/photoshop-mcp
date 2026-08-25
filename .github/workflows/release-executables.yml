@@ -1,0 +1,55 @@
+name: Build native executables
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2022
+            artifact: photoshop-mcp-windows-x64.exe
+          - runner: macos-15
+            artifact: photoshop-mcp-macos-arm64
+          - runner: macos-15-intel
+            artifact: photoshop-mcp-macos-x64
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --include=dev --ignore-scripts --no-audit --no-fund
+
+      - name: Install esbuild binary
+        run: node node_modules/esbuild/install.js
+
+      - name: Type-check and test
+        run: npm run build:server && npm run test:unit
+
+      - name: Build native executable
+        run: npm run build:exe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: artifacts/${{ matrix.artifact }}
+          if-no-files-found: error
+
+      - name: Attach executable to GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/${{ matrix.artifact }}

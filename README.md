@@ -642,6 +642,20 @@ npx @alisaitteke/photoshop-mcp
 
 To hack on the repo locally, see [From Source](docs/development.md#from-source) in the development guide.
 
+### Streamable HTTP and native executable
+
+The same entry point uses stdio by default and switches to Streamable HTTP with `--http`:
+
+```bash
+npx @alisaitteke/photoshop-mcp              # stdio (default)
+npx @alisaitteke/photoshop-mcp --http=38451 # Streamable HTTP
+# MCP endpoint: http://127.0.0.1:38451/mcp
+```
+
+Release builds produce one dual-mode executable for Windows x64 and macOS (Apple Silicon and
+Intel). See [Streamable HTTP and native executables](docs/streamable-http.md) for client
+configuration, build instructions, and signing notes.
+
 ## Configuration
 
 ### For Cursor

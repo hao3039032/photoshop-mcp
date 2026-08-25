@@ -9,6 +9,7 @@ pnpm-lock.yaml
 # Build outputs
 dist/
 build/
+artifacts/
 .taskmaster
 *.tsbuildinfo
 
