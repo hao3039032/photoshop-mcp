@@ -5,6 +5,18 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] - 2026-08-25
+
+[v1.7.0...v1.7.1](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.0...v1.7.1)
+
+### Fixes
+
+- fix(ci): align @eslint/js with eslint 9 for npm install (`f4bd3d4`)
+
+### Version bumps
+
+- 1.7.1 (`b9d3132`)
+
 ## [1.7.0] - 2026-08-25
 
 [v1.6.1...v1.7.0](https://github.com/alisaitteke/photoshop-mcp/compare/v1.6.1...v1.7.0)
@@ -335,11 +347,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1.1.0 (`6e1c1f0`)
 - 1.0.0 (`17d8d91`)
 
-## [1.7.1] - 2026-08-25
+## [1.7.2] - 2026-08-25
 
-[v1.7.0...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.0...HEAD) *(pending tag v1.7.1)*
+[v1.7.1...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.1...HEAD) *(pending tag v1.7.2)*
 
 ### Fixes
 
-- fix(ci): align @eslint/js with eslint 9 for npm install (`f4bd3d4`)
+- fix(ci): defer PhotoshopConnection executor init to avoid Linux throw (`0f49d30`)
 
