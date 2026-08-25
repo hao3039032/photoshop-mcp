@@ -5,13 +5,17 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.7.2] - 2026-08-25
 
-### Features
+[v1.7.1...v1.7.2](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.1...v1.7.2)
 
-- feat(analytics): revert to PostHog-only (posthog-js + posthog-node); remove GA4 and Mixpanel
-- docs: remove GA4/gtag references; docs site has no analytics tracking
-- PostHog works on every `npx` install via embedded project key (override with `POSTHOG_KEY`)
+### Fixes
+
+- fix(ci): defer PhotoshopConnection executor init to avoid Linux throw (`0f49d30`)
+
+### Version bumps
+
+- 1.7.2 (`38aa0ba`)
 
 ## [1.7.1] - 2026-08-25
 
@@ -355,11 +359,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 1.1.0 (`6e1c1f0`)
 - 1.0.0 (`17d8d91`)
 
-## [1.7.2] - 2026-08-25
+## [1.7.3] - 2026-08-25
 
-[v1.7.1...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.1...HEAD) *(pending tag v1.7.2)*
+[v1.7.2...HEAD](https://github.com/alisaitteke/photoshop-mcp/compare/v1.7.2...HEAD) *(pending tag v1.7.3)*
+
+### Features
+
+- feat(analytics): revert to PostHog-only and remove Mixpanel (`6041ea9`)
 
 ### Fixes
 
-- fix(ci): defer PhotoshopConnection executor init to avoid Linux throw (`0f49d30`)
+- fix(ci): install deps before MCP registry sync workflow (`d1af8e1`)
+
+### Other
+
+- ci: add MCP registry-only workflow and resilient npm publish (`6cfc560`)
 
