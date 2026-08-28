@@ -652,6 +652,13 @@ npx @alisaitteke/photoshop-mcp --http=38451 # Streamable HTTP
 # MCP endpoint: http://127.0.0.1:38451/mcp
 ```
 
+Browser-based clients require an explicit origin allowlist:
+
+```bash
+npx @alisaitteke/photoshop-mcp --http=38451 \
+  --allow-origin=https://app.example.com
+```
+
 Release builds produce one dual-mode executable for Windows x64 and macOS (Apple Silicon and
 Intel). See [Streamable HTTP and native executables](docs/streamable-http.md) for client
 configuration, build instructions, and signing notes.

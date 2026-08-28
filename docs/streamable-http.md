@@ -12,6 +12,7 @@ npm run build:server
 node dist/index.js              # stdio (default)
 node dist/index.js --http       # HTTP on port 38451
 node dist/index.js --http=4000  # HTTP on a custom port
+node dist/index.js --http --allow-origin=https://app.example.com
 ```
 
 The default MCP endpoint is `http://127.0.0.1:38451/mcp`. Point an HTTP-capable MCP client to
@@ -37,6 +38,8 @@ On Windows:
 ```powershell
 .\photoshop-mcp-windows-x64.exe
 # or: .\photoshop-mcp-windows-x64.exe --http=38451
+# browser bridge:
+.\photoshop-mcp-windows-x64.exe --http=38451 --allow-origin=https://app.example.com
 ```
 
 On macOS Apple Silicon:
@@ -55,18 +58,37 @@ Available options:
 --http           Enable Streamable HTTP on port 38451
 --http=PORT      Enable Streamable HTTP on a custom port
 --http PORT      Equivalent custom-port form
+--allow-origin=ORIGIN
+                 Allow an exact browser origin; may be repeated
 --version        Print the version
 --help           Show help
 ```
 
-`PHOTOSHOP_MCP_PORT` changes the default HTTP port. Existing variables such as `PHOTOSHOP_PATH`
-and `LOG_LEVEL` continue to work.
+`PHOTOSHOP_MCP_PORT` changes the default HTTP port. `PHOTOSHOP_MCP_ALLOWED_ORIGINS` supplies a
+comma-separated browser-origin allowlist. Existing variables such as `PHOTOSHOP_PATH` and
+`LOG_LEVEL` continue to work.
+
+## Browser clients
+
+Browsers enforce cross-origin access even though the MCP server is on the same computer. Pass
+each web application's exact origin (scheme, host, and optional port) with `--allow-origin`:
+
+```powershell
+.\photoshop-mcp-windows-x64.exe --http `
+  --allow-origin=https://app.example.com
+```
+
+The server responds to CORS preflight requests, exposes `Mcp-Session-Id`, and opts in to legacy
+Private Network Access preflights only for an allowed origin. Requests carrying any other
+`Origin` are rejected with HTTP 403. Do not allow arbitrary origins: this endpoint can control
+Photoshop. Current Chrome versions also ask the user to grant the website Local Network Access;
+the connection cannot proceed if that browser permission is denied.
 
 ## Fixed local binding
 
 HTTP mode always listens on `127.0.0.1` and always uses `/mcp`. It cannot be changed to a LAN or
-public binding through arguments or environment variables. The server also validates the Host
-header to reduce DNS rebinding risk.
+public binding through arguments or environment variables. The server validates both `Host` and
+browser `Origin` headers to reduce DNS rebinding and cross-site request risks.
 
 `GET /health` returns process health and the number of active MCP sessions. It intentionally
 does not expose Photoshop document state.

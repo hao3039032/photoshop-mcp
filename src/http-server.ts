@@ -19,6 +19,7 @@ const MAX_BODY_BYTES = 1024 * 1024;
 export interface PhotoshopHttpServerConfig {
   port: number;
   serverVersion: string;
+  allowedOrigins?: readonly string[];
 }
 
 export interface RunningPhotoshopHttpServer {
@@ -61,6 +62,49 @@ function sendMcpError(res: ServerResponse, status: number, message: string): voi
   });
 }
 
+function requestOrigin(req: IncomingMessage): string | undefined {
+  const value = req.headers.origin;
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function applyBrowserAccessHeaders(
+  req: IncomingMessage,
+  res: ServerResponse,
+  allowedOrigins: ReadonlySet<string>
+): boolean {
+  const origin = requestOrigin(req);
+  if (!origin) return true;
+  if (!allowedOrigins.has(origin)) return false;
+
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Expose-Headers', 'Mcp-Session-Id');
+  res.setHeader('Vary', 'Origin');
+  return true;
+}
+
+function sendCorsPreflight(req: IncomingMessage, res: ServerResponse): void {
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    [
+      'Accept',
+      'Authorization',
+      'Content-Type',
+      'Last-Event-ID',
+      'Mcp-Method',
+      'Mcp-Name',
+      'Mcp-Protocol-Version',
+      'Mcp-Session-Id',
+    ].join(', ')
+  );
+  res.setHeader('Access-Control-Max-Age', '600');
+  if (req.headers['access-control-request-private-network'] === 'true') {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  }
+  res.writeHead(204);
+  res.end();
+}
+
 async function readJsonBody(req: IncomingMessage): Promise<unknown> {
   const declaredLength = Number(req.headers['content-length'] ?? 0);
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
@@ -101,6 +145,7 @@ export async function startPhotoshopHttpServer(
 ): Promise<RunningPhotoshopHttpServer> {
   const logger = new Logger('StreamableHTTP');
   const sessions = new Map<string, SessionRecord>();
+  const allowedOrigins = new Set(config.allowedOrigins ?? []);
   let actualPort = config.port;
   let shuttingDown = false;
 
@@ -120,6 +165,11 @@ export async function startPhotoshopHttpServer(
     }
     const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host}`);
 
+    if (!applyBrowserAccessHeaders(req, res, allowedOrigins)) {
+      sendJson(res, 403, { error: 'invalid_origin' });
+      return;
+    }
+
     if (requestUrl.pathname === '/health' && req.method === 'GET') {
       sendJson(res, 200, { ok: true, transport: 'streamable-http', sessions: sessions.size });
       return;
@@ -127,6 +177,15 @@ export async function startPhotoshopHttpServer(
 
     if (requestUrl.pathname !== HTTP_PATH) {
       sendJson(res, 404, { error: 'not_found' });
+      return;
+    }
+
+    if (req.method === 'OPTIONS') {
+      if (!requestOrigin(req)) {
+        sendJson(res, 400, { error: 'origin_required' });
+        return;
+      }
+      sendCorsPreflight(req, res);
       return;
     }
 

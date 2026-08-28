@@ -26,14 +26,18 @@ Usage:
   photoshop-mcp --http         Start Streamable HTTP on port 38451
   photoshop-mcp --http=PORT    Start Streamable HTTP on a custom port
   photoshop-mcp --http PORT    Equivalent custom-port form
+  photoshop-mcp --http --allow-origin=ORIGIN
+                               Allow a browser app to connect
 
 Options:
   --http[=PORT]  Enable Streamable HTTP (host is fixed to 127.0.0.1)
+  --allow-origin=ORIGIN
+                 Add an exact http(s) browser origin; may be repeated
   --version      Print the version
   --help         Show this help
 
 Environment:
-  PHOTOSHOP_MCP_PORT, PHOTOSHOP_PATH, LOG_LEVEL
+  PHOTOSHOP_MCP_PORT, PHOTOSHOP_MCP_ALLOWED_ORIGINS, PHOTOSHOP_PATH, LOG_LEVEL
 `;
 
 let mcpServer: PhotoshopMCPServer | null = null;
@@ -61,6 +65,7 @@ async function main() {
       const running = await startPhotoshopHttpServer({
         port: options.httpPort,
         serverVersion: version,
+        allowedOrigins: options.allowedOrigins,
       });
       closeHttpServer = running.close;
 

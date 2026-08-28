@@ -19,6 +19,7 @@ describe('parseCliOptions', () => {
     expect(parseCliOptions([], {})).toEqual({
       mode: 'stdio',
       httpPort: 38451,
+      allowedOrigins: [],
       help: false,
       version: false,
     });
@@ -36,6 +37,19 @@ describe('parseCliOptions', () => {
 
   it('rejects an invalid HTTP port', () => {
     expect(() => parseCliOptions(['--http=70000'], {})).toThrow(/Invalid HTTP port/);
+  });
+
+  it('accepts exact browser origins from the CLI and environment', () => {
+    const options = parseCliOptions(['--http', '--allow-origin=https://app.example.com/'], {
+      PHOTOSHOP_MCP_ALLOWED_ORIGINS: 'http://localhost:3000',
+    });
+    expect(options.allowedOrigins).toEqual(['http://localhost:3000', 'https://app.example.com']);
+  });
+
+  it('rejects an allowed origin containing a path', () => {
+    expect(() => parseCliOptions(['--allow-origin=https://example.com/app'], {})).toThrow(
+      /Invalid allowed origin/
+    );
   });
 });
 
@@ -84,5 +98,50 @@ describe('Streamable HTTP server', () => {
       req.end();
     });
     expect(status).toBe(403);
+  });
+
+  it('answers browser preflight for an explicitly allowed origin', async () => {
+    const origin = 'https://app.example.com';
+    running = await startPhotoshopHttpServer({
+      port: 0,
+      serverVersion: '1.2.3',
+      allowedOrigins: [origin],
+    });
+
+    const response = await fetch(running.url, {
+      method: 'OPTIONS',
+      headers: {
+        Origin: origin,
+        'Access-Control-Request-Method': 'POST',
+        'Access-Control-Request-Headers': 'content-type,mcp-protocol-version',
+        'Access-Control-Request-Private-Network': 'true',
+      },
+    });
+
+    expect(response.status).toBe(204);
+    expect(response.headers.get('access-control-allow-origin')).toBe(origin);
+    expect(response.headers.get('access-control-allow-methods')).toContain('POST');
+    expect(response.headers.get('access-control-allow-headers')).toContain('Mcp-Session-Id');
+    expect(response.headers.get('access-control-allow-private-network')).toBe('true');
+    expect(response.headers.get('access-control-expose-headers')).toBe('Mcp-Session-Id');
+  });
+
+  it('rejects browser requests from an origin that was not allowed', async () => {
+    running = await startPhotoshopHttpServer({
+      port: 0,
+      serverVersion: '1.2.3',
+      allowedOrigins: ['https://app.example.com'],
+    });
+
+    const response = await fetch(running.url, {
+      method: 'OPTIONS',
+      headers: {
+        Origin: 'https://attacker.example',
+        'Access-Control-Request-Method': 'POST',
+      },
+    });
+
+    expect(response.status).toBe(403);
+    expect(response.headers.get('access-control-allow-origin')).toBeNull();
   });
 });
